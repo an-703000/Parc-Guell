@@ -20,50 +20,53 @@ html, body {
     height:100%; 
 }
 
-/* ===== HOTSPOT STILE MIGLIORATO ===== */
-
+/* ===== HOTSPOT STILE ANTI-GENIALLY ===== */
 .custom-tooltip {
-    min-width:260px;
-    max-width:340px;
+    width: 300px !important;
+    max-width: 300px !important;
+    box-sizing: border-box;
 }
 
-/* Bottone iniziale */
 .hotspot-button {
-    background:white;
-    padding:10px 14px;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:15px;
-    font-weight:600;
-    line-height:1.4;
-    text-align:center;
-    white-space:normal;
-    word-wrap:break-word;
-    box-shadow:0 0 15px rgba(0,0,0,0.4);
+    width: 100%;
+    box-sizing: border-box;
+    background: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 
-/* Box immagine */
 .hotspot-content {
-    margin-top:12px;
-    background:white;
-    padding:14px;
-    border-radius:12px;
-    display:none;
-    text-align:center;
-    box-shadow:0 0 15px rgba(0,0,0,0.4);
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 12px;
+    background: white;
+    padding: 14px;
+    border-radius: 12px;
+    display: none;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
 }
 
 .hotspot-content img {
-    max-width:100%;
-    border-radius:8px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
 
 .hotspot-content button{
-    margin-top:10px;
-    padding:6px 12px;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
+    margin-top: 10px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
 }
 </style>
 </head>
@@ -97,25 +100,20 @@ var scenes={
 "yaw":-180,
 "type":"info",
 "createTooltipFunc": function(hotSpotDiv){
-
-hotSpotDiv.classList.add('custom-tooltip');
-
-hotSpotDiv.innerHTML = `
-<div class="hotspot-button">Dettaglio della Salamandra</div>
-<div class="hotspot-content">
-<img src="El drac.jpg">
-<br>
-<button onclick="this.parentElement.style.display='none'">Chiudi</button>
-</div>
-`;
-
-let content = hotSpotDiv.querySelector('.hotspot-content');
-
-hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
-e.stopPropagation();
-content.style.display = content.style.display === "none" ? "block" : "none";
-};
-
+    hotSpotDiv.classList.add('custom-tooltip');
+    hotSpotDiv.innerHTML = `
+        <div class="hotspot-button">Dettaglio della Salamandra</div>
+        <div class="hotspot-content">
+            <img src="El drac.jpg">
+            <br>
+            <button onclick="this.parentElement.style.display='none'">Chiudi</button>
+        </div>
+    `;
+    let content = hotSpotDiv.querySelector('.hotspot-content');
+    hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
+        e.stopPropagation();
+        content.style.display = content.style.display === "none" ? "block" : "none";
+    };
 }
 }
 ]
@@ -132,25 +130,20 @@ content.style.display = content.style.display === "none" ? "block" : "none";
 "yaw":160,
 "type":"info",
 "createTooltipFunc": function(hotSpotDiv){
-
-hotSpotDiv.classList.add('custom-tooltip');
-
-hotSpotDiv.innerHTML = `
-<div class="hotspot-button">Dettaglio del mosaico</div>
-<div class="hotspot-content">
-<img src="Mosaico sole.jpg">
-<br>
-<button onclick="this.parentElement.style.display='none'">Chiudi</button>
-</div>
-`;
-
-let content = hotSpotDiv.querySelector('.hotspot-content');
-
-hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
-e.stopPropagation();
-content.style.display = content.style.display === "none" ? "block" : "none";
-};
-
+    hotSpotDiv.classList.add('custom-tooltip');
+    hotSpotDiv.innerHTML = `
+        <div class="hotspot-button">Dettaglio del mosaico</div>
+        <div class="hotspot-content">
+            <img src="Mosaico sole.jpg">
+            <br>
+            <button onclick="this.parentElement.style.display='none'">Chiudi</button>
+        </div>
+    `;
+    let content = hotSpotDiv.querySelector('.hotspot-content');
+    hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
+        e.stopPropagation();
+        content.style.display = content.style.display === "none" ? "block" : "none";
+    };
 }
 }
 ]
@@ -167,25 +160,20 @@ content.style.display = content.style.display === "none" ? "block" : "none";
 "yaw":30,
 "type":"info",
 "createTooltipFunc": function(hotSpotDiv){
-
-hotSpotDiv.classList.add('custom-tooltip');
-
-hotSpotDiv.innerHTML = `
-<div class="hotspot-button">Dettaglio della panchina</div>
-<div class="hotspot-content">
-<img src="Panchina.jpg">
-<br>
-<button onclick="this.parentElement.style.display='none'">Chiudi</button>
-</div>
-`;
-
-let content = hotSpotDiv.querySelector('.hotspot-content');
-
-hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
-e.stopPropagation();
-content.style.display = content.style.display === "none" ? "block" : "none";
-};
-
+    hotSpotDiv.classList.add('custom-tooltip');
+    hotSpotDiv.innerHTML = `
+        <div class="hotspot-button">Dettaglio della panchina</div>
+        <div class="hotspot-content">
+            <img src="Panchina.jpg">
+            <br>
+            <button onclick="this.parentElement.style.display='none'">Chiudi</button>
+        </div>
+    `;
+    let content = hotSpotDiv.querySelector('.hotspot-content');
+    hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
+        e.stopPropagation();
+        content.style.display = content.style.display === "none" ? "block" : "none";
+    };
 }
 },
 
@@ -195,7 +183,7 @@ content.style.display = content.style.display === "none" ? "block" : "none";
 "type":"info",
 "text":"Vista dall'alto",
 "clickHandlerFunc": function(){
-window.open("https://earth.google.com/earth/d/1j1wbTYDG8tGAcbo5Rz6Ug6Mm8R7XYg3l?usp=sharing","_blank");
+    window.open("https://earth.google.com/earth/d/1j1wbTYDG8tGAcbo5Rz6Ug6Mm8R7XYg3l?usp=sharing","_blank");
 }
 }
 ]
