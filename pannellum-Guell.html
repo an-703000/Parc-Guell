@@ -8,101 +8,159 @@
 <script src="https://cdn.pannellum.org/2.5/pannellum.js"></script>
 
 <style>
-html, body { 
-    margin:0; 
-    height:100%; 
-    width:100%; 
-    overflow:hidden; 
+html, body { margin:0; height:100%; width:100%; overflow:hidden; }
+#panorama { width:100%; height:100%; }
+
+/* STILE HOTSPOT MEDIA */
+.custom-tooltip {
+    max-width:420px;
 }
 
-#panorama { 
-    width:100%; 
-    height:100%; 
-    position:relative;   /* FONDAMENTALE per full screen Genially */
-}
-
-/* DIV FLOTTANTE INTERNO */
-#panoramaMedia {
-    display:none;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
+.hotspot-button {
     background:white;
-    padding:15px;
-    border-radius:10px;
-    z-index:9999;
-    box-shadow:0 0 20px rgba(0,0,0,0.6);
-    text-align:center;
-}
-
-#panoramaMedia img {
-    max-width:600px;
-    max-height:70vh;
-}
-
-#panoramaMedia button{
-    margin-top:10px;
-    padding:6px 12px;
+    padding:6px 10px;
+    border-radius:6px;
     cursor:pointer;
+    font-size:14px;
+    box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+
+.hotspot-content {
+    margin-top:8px;
+    background:white;
+    padding:10px;
+    border-radius:8px;
+    display:none;
+}
+
+.hotspot-content img {
+    max-width:400px;
 }
 </style>
 </head>
 
 <body>
 
-<div id="panorama">
-    <!-- DIV FLOTTANTE DENTRO IL PANORAMA -->
-    <div id="panoramaMedia"></div>
-</div>
+<div id="panorama"></div>
 
 <script>
 
-/* FUNZIONE APERTURA IMMAGINE */
-function toggleImage(file){
-    let container=document.getElementById("panoramaMedia");
-
-    if(container.style.display==="block"){
-        container.style.display="none";
-        container.innerHTML="";
-    } else {
-        container.innerHTML='<img src="'+file+'"><br><button onclick="closeImage()">Chiudi</button>';
-        container.style.display="block";
-    }
-}
-
-/* FUNZIONE CHIUSURA */
-function closeImage(){
-    let container=document.getElementById("panoramaMedia");
-    container.style.display="none";
-    container.innerHTML="";
-}
-
 var scenes={
-"scene1":{"type":"equirectangular","panorama":"Parc Guell 1.jpg","hotSpots":[
+"scene1":{
+"type":"equirectangular",
+"panorama":"Parc Guell 1.jpg",
+"hotSpots":[
 {"pitch":0,"yaw":0,"type":"scene","text":"Sali","sceneId":"scene2"}
-]},
-"scene2":{"type":"equirectangular","panorama":"Parc Guell 2.jpg","hotSpots":[
+]
+},
+
+"scene2":{
+"type":"equirectangular",
+"panorama":"Parc Guell 2.jpg",
+"hotSpots":[
 {"pitch":-20,"yaw":-180,"type":"scene","text":"Scendi","sceneId":"scene1"},
 {"pitch":0,"yaw":55,"type":"scene","text":"Sala Ipostila","sceneId":"scene3"},
 {"pitch":0,"yaw":-50,"type":"scene","text":"Terrazza","sceneId":"scene4"},
-{"pitch":-60,"yaw":-180,"type":"info","text":"Dettaglio della Salamandra",
- "clickHandlerFunc":function(){toggleImage("El drac.jpg");}}
-]},
-"scene3":{"type":"equirectangular","panorama":"Parc Guell 3.jpg","hotSpots":[
+
+{
+"pitch":-60,
+"yaw":-180,
+"type":"info",
+"createTooltipFunc": function(hotSpotDiv){
+    hotSpotDiv.classList.add('custom-tooltip');
+
+    hotSpotDiv.innerHTML = `
+        <div class="hotspot-button">Dettaglio della Salamandra</div>
+        <div class="hotspot-content">
+            <img src="El drac.jpg">
+            <br>
+            <button onclick="this.parentElement.style.display='none'">Chiudi</button>
+        </div>
+    `;
+
+    let content = hotSpotDiv.querySelector('.hotspot-content');
+    hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
+        e.stopPropagation();
+        content.style.display = content.style.display === "none" ? "block" : "none";
+    };
+}
+}
+]
+},
+
+"scene3":{
+"type":"equirectangular",
+"panorama":"Parc Guell 3.jpg",
+"hotSpots":[
 {"pitch":0,"yaw":170,"type":"scene","text":"Scendi","sceneId":"scene2"},
-{"pitch":35,"yaw":160,"type":"info","text":"Dettaglio del mosaico",
- "clickHandlerFunc":function(){toggleImage("Mosaico sole.jpg");}}
-]},
-"scene4":{"type":"equirectangular","panorama":"Parc Guell 4.jpg","hotSpots":[
+
+{
+"pitch":35,
+"yaw":160,
+"type":"info",
+"createTooltipFunc": function(hotSpotDiv){
+    hotSpotDiv.classList.add('custom-tooltip');
+
+    hotSpotDiv.innerHTML = `
+        <div class="hotspot-button">Dettaglio del mosaico</div>
+        <div class="hotspot-content">
+            <img src="Mosaico sole.jpg">
+            <br>
+            <button onclick="this.parentElement.style.display='none'">Chiudi</button>
+        </div>
+    `;
+
+    let content = hotSpotDiv.querySelector('.hotspot-content');
+    hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
+        e.stopPropagation();
+        content.style.display = content.style.display === "none" ? "block" : "none";
+    };
+}
+}
+]
+},
+
+"scene4":{
+"type":"equirectangular",
+"panorama":"Parc Guell 4.jpg",
+"hotSpots":[
 {"pitch":-5,"yaw":135,"type":"scene","text":"Scendi","sceneId":"scene2"},
-{"pitch":-30,"yaw":30,"type":"info","text":"Dettaglio della panchina",
- "clickHandlerFunc":function(){toggleImage("Panchina.jpg");}},
-{"pitch":0,"yaw":-150,"type":"info","text":"Vista dall'alto",
- "clickHandlerFunc":function(){
-     window.open("https://earth.google.com/earth/d/1j1wbTYDG8tGAcbo5Rz6Ug6Mm8R7XYg3l?usp=sharing","_blank");
- }}
-]}
+
+{
+"pitch":-30,
+"yaw":30,
+"type":"info",
+"createTooltipFunc": function(hotSpotDiv){
+    hotSpotDiv.classList.add('custom-tooltip');
+
+    hotSpotDiv.innerHTML = `
+        <div class="hotspot-button">Dettaglio della panchina</div>
+        <div class="hotspot-content">
+            <img src="Panchina.jpg">
+            <br>
+            <button onclick="this.parentElement.style.display='none'">Chiudi</button>
+        </div>
+    `;
+
+    let content = hotSpotDiv.querySelector('.hotspot-content');
+    hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
+        e.stopPropagation();
+        content.style.display = content.style.display === "none" ? "block" : "none";
+    };
+}
+},
+
+{
+"pitch":0,
+"yaw":-150,
+"type":"info",
+"text":"Vista dall'alto",
+"clickHandlerFunc": function(){
+    window.open("https://earth.google.com/earth/d/1j1wbTYDG8tGAcbo5Rz6Ug6Mm8R7XYg3l?usp=sharing","_blank");
+}
+}
+]
+}
 };
 
 pannellum.viewer('panorama',{
