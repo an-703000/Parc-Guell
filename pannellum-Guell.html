@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
 <title>Parc Guell</title>
 <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css"/>
@@ -20,53 +19,43 @@ html, body {
     height:100%; 
 }
 
-/* ===== HOTSPOT STILE ANTI-GENIALLY ===== */
-.custom-tooltip {
-    width: 300px !important;
-    max-width: 300px !important;
-    box-sizing: border-box;
-}
-
-.hotspot-button {
-    width: 100%;
-    box-sizing: border-box;
-    background: white;
-    padding: 10px 14px;
-    border-radius: 10px;
+/* ======================= */
+/* HOTSPOT MINIMALE PUNTO */
+/* ======================= */
+.min-hotspot {
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.4;
-    text-align: center;
-    white-space: normal;
-    word-break: break-word;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    border: 2px solid white;
 }
 
-.hotspot-content {
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 12px;
-    background: white;
-    padding: 14px;
-    border-radius: 12px;
-    display: none;
-    text-align: center;
-    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+/* CONTENITORE IMMAGINE FLOTANTE */
+#popup {
+    display:none;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:white;
+    padding:10px;
+    z-index:9999;
+    border-radius:10px;
 }
 
-.hotspot-content img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
+#popup img {
+    max-width:90vw;
+    max-height:80vh;
+    border-radius:8px;
 }
 
-.hotspot-content button{
-    margin-top: 10px;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+#popup button {
+    margin-top:10px;
+    padding:6px 12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
 }
 </style>
 </head>
@@ -75,128 +64,100 @@ html, body {
 
 <div id="panorama"></div>
 
-<script>
+<!-- POPUP IMMAGINE -->
+<div id="popup">
+    <div id="mediaContainer"></div><br>
+    <button onclick="closePopup()">Chiudi</button>
+</div>
 
-var scenes={
+<script>
+// Funzioni apertura/chiusura immagine
+function openMedia(file){
+    let container = document.getElementById("mediaContainer");
+    container.innerHTML = '<img src="'+file+'">';
+    document.getElementById("popup").style.display = "block";
+}
+
+function closePopup(){
+    document.getElementById("popup").style.display = "none";
+}
+
+// Definizione scene e hotspot
+var scenes = {
 
 "scene1":{
-"type":"equirectangular",
-"panorama":"Parc Guell 1.jpg",
-"hotSpots":[
-{"pitch":0,"yaw":0,"type":"scene","text":"Sali","sceneId":"scene2"}
-]
+    "type":"equirectangular",
+    "panorama":"Parc Guell 1.jpg",
+    "hotSpots":[
+        {"pitch":0,"yaw":0,"type":"scene","text":"Vai a scena 2","sceneId":"scene2"}
+    ]
 },
 
 "scene2":{
-"type":"equirectangular",
-"panorama":"Parc Guell 2.jpg",
-"hotSpots":[
-{"pitch":-20,"yaw":-180,"type":"scene","text":"Scendi","sceneId":"scene1"},
-{"pitch":0,"yaw":55,"type":"scene","text":"Sala Ipostila","sceneId":"scene3"},
-{"pitch":0,"yaw":-50,"type":"scene","text":"Terrazza","sceneId":"scene4"},
+    "type":"equirectangular",
+    "panorama":"Parc Guell 2.jpg",
+    "hotSpots":[
+        {"pitch":-20,"yaw":-180,"type":"scene","text":"Vai a scena 1","sceneId":"scene1"},
+        {"pitch":0,"yaw":55,"type":"scene","text":"Vai a scena 3","sceneId":"scene3"},
+        {"pitch":0,"yaw":-50,"type":"scene","text":"Vai a scena 4","sceneId":"scene4"},
 
-{
-"pitch":-60,
-"yaw":-180,
-"type":"info",
-"createTooltipFunc": function(hotSpotDiv){
-    hotSpotDiv.classList.add('custom-tooltip');
-    hotSpotDiv.innerHTML = `
-        <div class="hotspot-button">Dettaglio della Salamandra</div>
-        <div class="hotspot-content">
-            <img src="El drac.jpg">
-            <br>
-            <button onclick="this.parentElement.style.display='none'">Chiudi</button>
-        </div>
-    `;
-    let content = hotSpotDiv.querySelector('.hotspot-content');
-    hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
-        e.stopPropagation();
-        content.style.display = content.style.display === "none" ? "block" : "none";
-    };
-}
-}
-]
+        // hotspot foto
+        {"pitch":-60,"yaw":-180,"type":"info",
+            "createTooltipFunc": function(hotSpotDiv){
+                hotSpotDiv.classList.add('min-hotspot');
+                hotSpotDiv.onclick = function(e){ e.stopPropagation(); openMedia("El drac.jpg"); };
+            }
+        }
+    ]
 },
 
 "scene3":{
-"type":"equirectangular",
-"panorama":"Parc Guell 3.jpg",
-"hotSpots":[
-{"pitch":0,"yaw":170,"type":"scene","text":"Scendi","sceneId":"scene2"},
+    "type":"equirectangular",
+    "panorama":"Parc Guell 3.jpg",
+    "hotSpots":[
+        {"pitch":0,"yaw":170,"type":"scene","text":"Vai a scena 2","sceneId":"scene2"},
 
-{
-"pitch":35,
-"yaw":160,
-"type":"info",
-"createTooltipFunc": function(hotSpotDiv){
-    hotSpotDiv.classList.add('custom-tooltip');
-    hotSpotDiv.innerHTML = `
-        <div class="hotspot-button">Dettaglio del mosaico</div>
-        <div class="hotspot-content">
-            <img src="Mosaico sole.jpg">
-            <br>
-            <button onclick="this.parentElement.style.display='none'">Chiudi</button>
-        </div>
-    `;
-    let content = hotSpotDiv.querySelector('.hotspot-content');
-    hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
-        e.stopPropagation();
-        content.style.display = content.style.display === "none" ? "block" : "none";
-    };
-}
-}
-]
+        {"pitch":35,"yaw":160,"type":"info",
+            "createTooltipFunc": function(hotSpotDiv){
+                hotSpotDiv.classList.add('min-hotspot');
+                hotSpotDiv.onclick = function(e){ e.stopPropagation(); openMedia("Mosaico sole.jpg"); };
+            }
+        }
+    ]
 },
 
 "scene4":{
-"type":"equirectangular",
-"panorama":"Parc Guell 4.jpg",
-"hotSpots":[
-{"pitch":-5,"yaw":135,"type":"scene","text":"Scendi","sceneId":"scene2"},
+    "type":"equirectangular",
+    "panorama":"Parc Guell 4.jpg",
+    "hotSpots":[
+        {"pitch":-5,"yaw":135,"type":"scene","text":"Vai a scena 2","sceneId":"scene2"},
 
-{
-"pitch":-30,
-"yaw":30,
-"type":"info",
-"createTooltipFunc": function(hotSpotDiv){
-    hotSpotDiv.classList.add('custom-tooltip');
-    hotSpotDiv.innerHTML = `
-        <div class="hotspot-button">Dettaglio della panchina</div>
-        <div class="hotspot-content">
-            <img src="Panchina.jpg">
-            <br>
-            <button onclick="this.parentElement.style.display='none'">Chiudi</button>
-        </div>
-    `;
-    let content = hotSpotDiv.querySelector('.hotspot-content');
-    hotSpotDiv.querySelector('.hotspot-button').onclick = function(e){
-        e.stopPropagation();
-        content.style.display = content.style.display === "none" ? "block" : "none";
-    };
-}
-},
+        {"pitch":-30,"yaw":30,"type":"info",
+            "createTooltipFunc": function(hotSpotDiv){
+                hotSpotDiv.classList.add('min-hotspot');
+                hotSpotDiv.onclick = function(e){ e.stopPropagation(); openMedia("Panchina.jpg"); };
+            }
+        },
 
-{
-"pitch":0,
-"yaw":-150,
-"type":"info",
-"text":"Vista dall'alto",
-"clickHandlerFunc": function(){
-    window.open("https://earth.google.com/earth/d/1j1wbTYDG8tGAcbo5Rz6Ug6Mm8R7XYg3l?usp=sharing","_blank");
-}
-}
-]
+        // hotspot Google Earth
+        {"pitch":0,"yaw":-150,"type":"info",
+            "createTooltipFunc": function(hotSpotDiv){
+                hotSpotDiv.classList.add('min-hotspot');
+                hotSpotDiv.onclick = function(e){ e.stopPropagation(); window.open("https://earth.google.com/earth/d/1j1wbTYDG8tGAcbo5Rz6Ug6Mm8R7XYg3l?usp=sharing","_blank"); };
+            }
+        }
+    ]
 }
 
 };
 
+// Inizializzazione Pannellum
 pannellum.viewer('panorama',{
-"default":{"firstScene":"scene1","sceneFadeDuration":1000},
-"scenes":scenes,
-"autoLoad":true,
-"showFullscreenCtrl":true,
-"showVRCtrl":true
+    "default":{"firstScene":"scene1","sceneFadeDuration":1000},
+    "scenes":scenes,
+    "autoLoad":true,
+    "showFullscreenCtrl":true,
+    "showVRCtrl":true
 });
 
 </script>
