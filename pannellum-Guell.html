@@ -19,19 +19,7 @@ html, body {
     height:100%; 
 }
 
-/* ======================= */
-/* HOTSPOT MINIMALE PUNTO */
-/* ======================= */
-.min-hotspot {
-    width: 20px;
-    height: 20px;
-    background: red;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid white;
-}
-
-/* CONTENITORE IMMAGINE FLOTANTE */
+/* BOX POPUP */
 #popup {
     display:none;
     position:fixed;
@@ -56,6 +44,16 @@ html, body {
     border:none;
     border-radius:6px;
     cursor:pointer;
+}
+
+/* HOTSPOT MINIMALE */
+.hotspot-button {
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
 }
 </style>
 </head>
@@ -82,7 +80,7 @@ function closePopup(){
     document.getElementById("popup").style.display = "none";
 }
 
-// Definizione scene e hotspot
+// SCENE E HOTSPOT
 var scenes = {
 
 "scene1":{
@@ -101,10 +99,10 @@ var scenes = {
         {"pitch":0,"yaw":55,"type":"scene","text":"Vai a scena 3","sceneId":"scene3"},
         {"pitch":0,"yaw":-50,"type":"scene","text":"Vai a scena 4","sceneId":"scene4"},
 
-        // hotspot foto
+        // FOTO
         {"pitch":-60,"yaw":-180,"type":"info",
             "createTooltipFunc": function(hotSpotDiv){
-                hotSpotDiv.classList.add('min-hotspot');
+                hotSpotDiv.classList.add('hotspot-button');
                 hotSpotDiv.onclick = function(e){ e.stopPropagation(); openMedia("El drac.jpg"); };
             }
         }
@@ -119,7 +117,7 @@ var scenes = {
 
         {"pitch":35,"yaw":160,"type":"info",
             "createTooltipFunc": function(hotSpotDiv){
-                hotSpotDiv.classList.add('min-hotspot');
+                hotSpotDiv.classList.add('hotspot-button');
                 hotSpotDiv.onclick = function(e){ e.stopPropagation(); openMedia("Mosaico sole.jpg"); };
             }
         }
@@ -134,15 +132,15 @@ var scenes = {
 
         {"pitch":-30,"yaw":30,"type":"info",
             "createTooltipFunc": function(hotSpotDiv){
-                hotSpotDiv.classList.add('min-hotspot');
+                hotSpotDiv.classList.add('hotspot-button');
                 hotSpotDiv.onclick = function(e){ e.stopPropagation(); openMedia("Panchina.jpg"); };
             }
         },
 
-        // hotspot Google Earth
+        // GOOGLE EARTH
         {"pitch":0,"yaw":-150,"type":"info",
             "createTooltipFunc": function(hotSpotDiv){
-                hotSpotDiv.classList.add('min-hotspot');
+                hotSpotDiv.classList.add('hotspot-button');
                 hotSpotDiv.onclick = function(e){ e.stopPropagation(); window.open("https://earth.google.com/earth/d/1j1wbTYDG8tGAcbo5Rz6Ug6Mm8R7XYg3l?usp=sharing","_blank"); };
             }
         }
@@ -151,7 +149,7 @@ var scenes = {
 
 };
 
-// Inizializzazione Pannellum
+// INIZIALIZZAZIONE PANNELLUM
 pannellum.viewer('panorama',{
     "default":{"firstScene":"scene1","sceneFadeDuration":1000},
     "scenes":scenes,
